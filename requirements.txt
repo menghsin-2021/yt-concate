@@ -1,1 +1,3 @@
 python-dotenv==0.15.0
+pytube==10.6.0
+typing-extensions==3.7.4.3
