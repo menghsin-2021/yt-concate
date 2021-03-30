@@ -15,6 +15,7 @@ class EditVideo(Step):
             except OSError:
                 print('no video')
                 continue
+            # 因為影片太少會出錯找不到路徑 目前先 skip 掉這個步驟
             clips.append(video)
             if len(clips) >= inputs['limit']:
                 break

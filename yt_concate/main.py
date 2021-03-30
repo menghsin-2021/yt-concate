@@ -19,7 +19,7 @@ def main():
     inputs = {
         'channel_id': CHANNEL_ID,
         'search_word': 'incredible',
-        'limit': 2,
+        'limit': 8,
     }
 
     steps = [
