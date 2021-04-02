@@ -38,7 +38,7 @@ class DownloadVideos(Step):
                 continue
 
             if int(len([name for name in os.listdir(VIDEOS_DIR) if os.path.isfile(os.path.join(VIDEOS_DIR, name))])) > inputs['limit']:
-                print('the numbers of videos are up to 20!!!')
+                print('the numbers of videos are up to' + str((inputs['limit'])))
                 break
             # 因為檔案下載太慢，設條件限制資料夾內影片數量，停止下載
             # 程式碼來源：https://www.itread01.com/content/1549581703.html
