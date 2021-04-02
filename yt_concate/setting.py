@@ -1,3 +1,5 @@
+import sys
+sys.path.append('C:\\Users\\Meng-Hsin\\venv\\lib\\site-packages')
 import os
 from dotenv import load_dotenv
 

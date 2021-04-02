@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from yt_concate.setting import DOWNLOADS_DIR
 from yt_concate.setting import VIDEOS_DIR
@@ -10,11 +11,20 @@ class Utils:
     def __init__(self):
         pass
 
+    def remove_dirs(self):
+        shutil.rmtree(VIDEOS_DIR)
+        shutil.rmtree(CAPTIONS_DIR)
+
     def create_dirs(self):
         os.makedirs(DOWNLOADS_DIR, exist_ok=True)
         os.makedirs(VIDEOS_DIR, exist_ok=True)
         os.makedirs(CAPTIONS_DIR, exist_ok=True)
         os.makedirs(OUTPUTS_DIR, exist_ok=True)
+
+    def create_dirs_final(self):
+        os.makedirs(VIDEOS_DIR, exist_ok=True)
+        os.makedirs(CAPTIONS_DIR, exist_ok=True)
+
 
     def get_video_list_filepath(self, channel_id):
         return os.path.join(DOWNLOADS_DIR, channel_id + '.txt')
@@ -34,5 +44,10 @@ class Utils:
     def get_output_filepath(self, channel_id, search_word):
         filename = f'{channel_id}_{search_word}.mp4'
         return os.path.join(OUTPUTS_DIR, filename)
+
+    def output_video_file_exist(self, output_filepath):
+        filepath = os.path.join(output_filepath)
+        return os.path.exists(filepath) and os.path.getsize(filepath) > 0
+
 
 

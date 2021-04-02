@@ -11,7 +11,7 @@ class DownloadVideos(Step):
     def process(self, data, inputs, utils):
         start = time.time()
         threads = []
-        for i in range(3):
+        for i in range(4):
             print('registering process %d' % i)
             threads.append(Thread(target=self.download_yt, args = (data[i::4], inputs, utils)))
             # 必須要用 args=() 來做參數傳遞，否則全部跑完才會跳到第二個process
@@ -33,7 +33,7 @@ class DownloadVideos(Step):
         for yt in yt_set:
             url = yt.url
 
-            if utils.video_file_exist(yt):
+            if utils.video_file_exist(yt) and inputs['fast'] == True:
                 print(f'found existing video file for {url}, skipping')
                 continue
 

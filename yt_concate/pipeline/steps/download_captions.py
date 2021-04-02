@@ -1,3 +1,5 @@
+import sys
+sys.path.append('C:\\Users\\Meng-Hsin\\venv\\lib\\site-packages')
 import concurrent.futures
 import time
 from pytube import YouTube
@@ -12,13 +14,14 @@ class DownloadCaptions(Step):
         YT = []
         for yt in data:
             print('downloading caption for', yt.id)
-            if utils.caption_file_exist(yt):
+            if utils.caption_file_exist(yt) and inputs['fast'] == True:
                 print('found existing caption file')
-                continue
-            YT.append(yt)
+                pass
+            else:
+                YT.append(yt)
 
         for yt in YT:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
                 executor.submit(self.download_cap, yt, inputs, utils)
 
         end = time.time()
