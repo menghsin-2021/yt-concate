@@ -1,3 +1,4 @@
+import logging
 from .step import Step
 from moviepy.editor import VideoFileClip
 from moviepy.editor import concatenate_videoclips
@@ -5,15 +6,16 @@ from moviepy.editor import concatenate_videoclips
 
 class EditVideo(Step):
     def process(self, data, inputs, utils):
+        logger = logging.getLogger(f'mainModule.{__name__}')
         clips = []
         for found in data:
-            print(found.time)
-            print(found.yt)
+            logger.info(found.time)
+            logger.info(found.yt)
             start, end = self.parse_caption_time(found.time)
             try:
                 video = VideoFileClip(found.yt.get_video_filepath()).subclip(start, end)
             except OSError:
-                print('no video')
+                logger.warning('no video')
                 continue
             # 因為影片太少會出錯找不到路徑 目前先 skip 掉這個步驟
             clips.append(video)

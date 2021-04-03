@@ -1,5 +1,6 @@
 import sys
 sys.path.append('C:\\Users\\Meng-Hsin\\venv\\lib\\site-packages')
+import logging
 import concurrent.futures
 import time
 from pytube import YouTube
@@ -9,13 +10,14 @@ from .step import StepException
 
 class DownloadCaptions(Step):
     def process(self, data, inputs, utils):
+        logger = logging.getLogger(f'mainModule.{__name__}.process')
         start = time.time()
 
         YT = []
         for yt in data:
-            print('downloading caption for', yt.id)
+            logger.info(f'downloading caption for {yt.id}')
             if utils.caption_file_exist(yt) and inputs['fast'] == True:
-                print('found existing caption file')
+                logger.info('found existing caption file')
                 pass
             else:
                 YT.append(yt)
@@ -25,11 +27,12 @@ class DownloadCaptions(Step):
                 executor.submit(self.download_cap, yt, inputs, utils)
 
         end = time.time()
-        print('took', end - start, 'seconds')
+        logger.info(f'took, {end - start} , seconds')
 
         return data
 
     def download_cap(self, yt, inputs, utils):
+        logger = logging.getLogger(f'mainModule.{__name__}.download_cap')
         try:
             source = YouTube(yt.url)
             en_caption = source.captions.get_by_language_code('a.en')
@@ -38,7 +41,7 @@ class DownloadCaptions(Step):
             text_file.write(en_caption_convert_to_srt)
             text_file.close()
         except AttributeError:
-            print('AttributeError when downloading caption for', yt.url)
+            logger.warning(f'AttributeError when downloading caption for {yt.url}')
 
 
 
